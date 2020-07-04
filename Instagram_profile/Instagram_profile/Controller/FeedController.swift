@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  FeedController.swift
 //  Instagram_profile
 //
 //  Created by 宮本一成 on 2020/07/04.
@@ -8,13 +8,23 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class FeedController: UIViewController {
+    
+    // MARK: - Properties
+    
+    
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-    }
 
+        
+    }
+    
+    
+    // MARK: - Helpers
+    
+
+   
 
 }
-
