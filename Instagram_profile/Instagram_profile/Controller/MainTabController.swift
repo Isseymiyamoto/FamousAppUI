@@ -19,6 +19,7 @@ class MainTabController: UITabBarController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .white
         configureViewControllers()
     }
         
@@ -29,9 +30,14 @@ class MainTabController: UITabBarController{
         let feed = FeedController()
         let nav1 = templateNavigationController(image: UIImage(systemName: "house"), rootViewController: feed)
         
-        let nav2 = templateNavigationController(image: UIImage(systemName: "magnifyingglass"), rootViewController: feed)
-        let nav3 = templateNavigationController(image: UIImage(systemName: "plus.app"), rootViewController: feed)
-        let nav4 = templateNavigationController(image: UIImage(systemName: "heart"), rootViewController: feed)
+        let search = SearchController()
+        let nav2 = templateNavigationController(image: UIImage(systemName: "magnifyingglass"), rootViewController: search)
+        
+        let upload = UploadPostController()
+        let nav3 = templateNavigationController(image: UIImage(systemName: "plus.app"), rootViewController: upload)
+        
+        let notification = NotificationController()
+        let nav4 = templateNavigationController(image: UIImage(systemName: "heart"), rootViewController: notification)
         
         let profile = ProfileController(collectionViewLayout: UICollectionViewFlowLayout())
         let nav5 = templateNavigationController(image: UIImage(systemName: "person"), rootViewController: profile)

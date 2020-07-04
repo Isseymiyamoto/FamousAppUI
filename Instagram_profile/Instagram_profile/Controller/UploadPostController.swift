@@ -1,5 +1,5 @@
 //
-//  FeedController.swift
+//  UploadPostController.swift
 //  Instagram_profile
 //
 //  Created by 宮本一成 on 2020/07/04.
@@ -8,10 +8,8 @@
 
 import UIKit
 
-class FeedController: UIViewController {
-    
-    // MARK: - Properties
-    
+class UploadPostController: UIViewController {
+
     // MARK: - Properties
     
     private let dammyButton: UIButton = {
@@ -29,7 +27,7 @@ class FeedController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        configureUI(withTitle: "タイムライン")
+        configureUI(withTitle: "投稿する")
     }
     
     
@@ -45,7 +43,4 @@ class FeedController: UIViewController {
         dammyButton.anchor(left: view.leftAnchor, right: view.rightAnchor, paddingLeft: 16, paddingRight: 16, height: 56)
         dammyButton.layer.cornerRadius = 4
     }
-
-   
-
 }

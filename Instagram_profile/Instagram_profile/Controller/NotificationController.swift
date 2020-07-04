@@ -1,5 +1,5 @@
 //
-//  FeedController.swift
+//  NotificationController.swift
 //  Instagram_profile
 //
 //  Created by 宮本一成 on 2020/07/04.
@@ -8,10 +8,8 @@
 
 import UIKit
 
-class FeedController: UIViewController {
-    
-    // MARK: - Properties
-    
+class NotificationController: UIViewController {
+
     // MARK: - Properties
     
     private let dammyButton: UIButton = {
@@ -29,23 +27,19 @@ class FeedController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        configureUI(withTitle: "タイムライン")
+        configureUI()
     }
     
     
     // MARK: - Helpers
     
-    func configureUI(withTitle title: String){
+    func configureUI(){
         view.backgroundColor = .white
-        
-        navigationItem.title = title
         
         view.addSubview(dammyButton)
         dammyButton.center(inView: view)
         dammyButton.anchor(left: view.leftAnchor, right: view.rightAnchor, paddingLeft: 16, paddingRight: 16, height: 56)
         dammyButton.layer.cornerRadius = 4
     }
-
-   
 
 }

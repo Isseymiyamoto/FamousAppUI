@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		856B113024B0C555004C1E3A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856B112F24B0C555004C1E3A /* Extensions.swift */; };
+		856B113224B0C7AD004C1E3A /* UploadPostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856B113124B0C7AD004C1E3A /* UploadPostController.swift */; };
+		856B113424B0C7B7004C1E3A /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856B113324B0C7B7004C1E3A /* SearchController.swift */; };
+		856B113624B0C7CA004C1E3A /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856B113524B0C7CA004C1E3A /* NotificationController.swift */; };
 		85DB72ED24B0719300F9CFE9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DB72EC24B0719300F9CFE9 /* AppDelegate.swift */; };
 		85DB72EF24B0719300F9CFE9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DB72EE24B0719300F9CFE9 /* SceneDelegate.swift */; };
 		85DB72F424B0719300F9CFE9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85DB72F224B0719300F9CFE9 /* Main.storyboard */; };
@@ -18,6 +22,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		856B112F24B0C555004C1E3A /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		856B113124B0C7AD004C1E3A /* UploadPostController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadPostController.swift; sourceTree = "<group>"; };
+		856B113324B0C7B7004C1E3A /* SearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
+		856B113524B0C7CA004C1E3A /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		85DB72E924B0719300F9CFE9 /* Instagram_profile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Instagram_profile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85DB72EC24B0719300F9CFE9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		85DB72EE24B0719300F9CFE9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -41,6 +49,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		856B112E24B0C4BD004C1E3A /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				856B112F24B0C555004C1E3A /* Extensions.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		85DB72E024B0719300F9CFE9 = {
 			isa = PBXGroup;
 			children = (
@@ -62,6 +78,7 @@
 			children = (
 				85DB730024B0786900F9CFE9 /* View */,
 				85DB730124B0786E00F9CFE9 /* Controller */,
+				856B112E24B0C4BD004C1E3A /* Utils */,
 				85DB72EC24B0719300F9CFE9 /* AppDelegate.swift */,
 				85DB72EE24B0719300F9CFE9 /* SceneDelegate.swift */,
 				85DB72F224B0719300F9CFE9 /* Main.storyboard */,
@@ -85,6 +102,9 @@
 				85DB730224B078B600F9CFE9 /* MainTabController.swift */,
 				85DB730424B07A7800F9CFE9 /* ProfileController.swift */,
 				85DB730624B07B3100F9CFE9 /* FeedController.swift */,
+				856B113124B0C7AD004C1E3A /* UploadPostController.swift */,
+				856B113324B0C7B7004C1E3A /* SearchController.swift */,
+				856B113524B0C7CA004C1E3A /* NotificationController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -160,9 +180,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				856B113224B0C7AD004C1E3A /* UploadPostController.swift in Sources */,
 				85DB72ED24B0719300F9CFE9 /* AppDelegate.swift in Sources */,
+				856B113024B0C555004C1E3A /* Extensions.swift in Sources */,
+				856B113424B0C7B7004C1E3A /* SearchController.swift in Sources */,
 				85DB72EF24B0719300F9CFE9 /* SceneDelegate.swift in Sources */,
 				85DB730724B07B3100F9CFE9 /* FeedController.swift in Sources */,
+				856B113624B0C7CA004C1E3A /* NotificationController.swift in Sources */,
 				85DB730324B078B600F9CFE9 /* MainTabController.swift in Sources */,
 				85DB730524B07A7800F9CFE9 /* ProfileController.swift in Sources */,
 			);
