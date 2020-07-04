@@ -12,6 +12,10 @@ class MainTabController: UITabBarController{
     
     // MARK: - Properties
     
+//    private let profileImage: UIImage? = {
+//        let image = UIImage(named: "profile_image")
+//        return image
+//    }()
     
     
     // MARK: - Lifecycle
@@ -38,6 +42,8 @@ class MainTabController: UITabBarController{
         
         let notification = NotificationController()
         let nav4 = templateNavigationController(image: UIImage(systemName: "heart"), rootViewController: notification)
+        nav4.tabBarItem.selectedImage = UIImage(systemName: "heart.fill")
+        nav4.tabBarItem.badgeValue = "2"
         
         let profile = ProfileController(collectionViewLayout: UICollectionViewFlowLayout())
         let nav5 = templateNavigationController(image: UIImage(systemName: "person"), rootViewController: profile)

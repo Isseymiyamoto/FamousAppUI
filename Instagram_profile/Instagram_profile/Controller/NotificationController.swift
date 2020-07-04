@@ -27,14 +27,16 @@ class NotificationController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        configureUI()
+        configureUI(withTitle: "通知")
     }
     
     
     // MARK: - Helpers
     
-    func configureUI(){
+    func configureUI(withTitle title: String){
         view.backgroundColor = .white
+        
+        navigationItem.title = title
         
         view.addSubview(dammyButton)
         dammyButton.center(inView: view)
