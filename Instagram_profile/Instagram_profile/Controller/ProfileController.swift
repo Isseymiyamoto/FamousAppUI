@@ -48,6 +48,8 @@ class ProfileController: UICollectionViewController{
     
     func configureNavigationBar(){
         navigationController?.navigationBar.tintColor = .black
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.shadowImage = UIImage()
         
         navigationItem.title = "i_bte7"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "line.horizontal.3"), style: .plain, target: self, action: #selector(handleRightButtonTapped))
@@ -55,6 +57,7 @@ class ProfileController: UICollectionViewController{
     }
     
     func configureCollectionView(){
+        collectionView.backgroundColor = .white
         collectionView.register(ProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
     }
 }
@@ -84,7 +87,7 @@ extension ProfileController{
 extension ProfileController: UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        let height: CGFloat = 400
+        let height: CGFloat = 320
         return CGSize(width: view.frame.width, height: height)
     }
     
