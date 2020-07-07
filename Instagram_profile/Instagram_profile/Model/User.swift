@@ -10,11 +10,23 @@ import Foundation
 
 struct User {
     
-    let fullname: String
-    let username: String
-    let profileImageUrl: String
-    let followers: String
-    let following: String
-    let bio: String
+    let uid: String
+    var fullname: String
+    var username: String
+    var profileImageUrl: URL?
+    var bio: String
+    
+    init(uid: String, dictionary: [String: Any]){
+        self.uid = uid
+        
+        self.fullname = dictionary["fullname"] as? String ?? ""
+        self.username = dictionary["username"] as? String ?? ""
+        self.bio = dictionary["bio"] as? String ?? ""
+    }
 
+}
+
+struct UserRelationStats {
+    var followers: Int
+    var following: Int
 }

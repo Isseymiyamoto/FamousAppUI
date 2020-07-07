@@ -23,11 +23,16 @@ class MainTabController: UITabBarController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        configureUI()
         configureViewControllers()
     }
         
     // MARK: - Helpers
+    
+    func configureUI(){
+        view.backgroundColor = .white
+        tabBar.tintColor = .black
+    }
     
     func configureViewControllers(){
         

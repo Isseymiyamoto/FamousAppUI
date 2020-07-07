@@ -8,6 +8,9 @@
 
 import UIKit
 
+private let headerIdentifier = "profileHeader"
+//private let identifier = "logCell"
+
 class ProfileController: UICollectionViewController{
     
     // MARK: - Properties
@@ -27,15 +30,68 @@ class ProfileController: UICollectionViewController{
     }
     
     
+    // MARK: - Selectors
+    
+    @objc func handleRightButtonTapped(){
+        
+    }
+    
     // MARK: - Helpers
     
     func configureUI(){
         view.backgroundColor = .white
         
-        navigationItem.title = "user_id"
+        configureNavigationBar()
+        configureCollectionView()
     }
     
     
+    func configureNavigationBar(){
+        navigationController?.navigationBar.tintColor = .black
+        
+        navigationItem.title = "i_bte7"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "line.horizontal.3"), style: .plain, target: self, action: #selector(handleRightButtonTapped))
+        
+    }
     
+    func configureCollectionView(){
+        collectionView.register(ProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
+    }
+}
+
+// MARK: - UICollectionViewDataSource
+
+extension ProfileController{
+//    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        return 1
+//    }
+    
+//    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)
+//        return cell
+//    }
+    
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! ProfileHeader
+        return header
+    }
     
 }
+
+
+// MARK: - UICollectionViewDelegateFlowLayout
+
+extension ProfileController: UICollectionViewDelegateFlowLayout{
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        let height: CGFloat = 400
+        return CGSize(width: view.frame.width, height: height)
+    }
+    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        let size = view.frame.width / 3
+//        return CGSize(width: size, height: size)
+//    }
+}
+
+
