@@ -50,6 +50,18 @@ class ProfileHeader: UICollectionReusableView{
         return label
     }()
     
+    private let editProfileButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("プロフィールを編集", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.addTarget(self, action: #selector(handleEditProfileButtonTapped), for: .touchUpInside)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+//        button.layer.borderColor = UIColor.systemGroupedBackground.cgColor
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.backgroundColor = .white
+        return button
+    }()
+    
     
     
     // MARK: - Lifecycle
@@ -57,7 +69,7 @@ class ProfileHeader: UICollectionReusableView{
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = .white
+        backgroundColor = .systemGroupedBackground
         
         let postCountStack = makeStatsStackView(button: postCountButton, label: postCountLabel)
         let followingCountStack = makeStatsStackView(button: followingCountButton, label: followingCountLabel)
@@ -82,10 +94,19 @@ class ProfileHeader: UICollectionReusableView{
         
         addSubview(bioLabel)
         bioLabel.anchor(top: fullnameLabel.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 4, paddingLeft: 16, paddingRight: 16)
+        
+        addSubview(editProfileButton)
+        editProfileButton.anchor(top: bioLabel.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 16, paddingLeft: 16, paddingRight: 16 )
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Selectors
+    
+    @objc func handleEditProfileButtonTapped(){
+        delegate?.handleEditProfile(self)
     }
     
     

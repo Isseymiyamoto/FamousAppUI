@@ -48,6 +48,7 @@ class ProfileController: UICollectionViewController{
     
     func configureNavigationBar(){
         navigationController?.navigationBar.tintColor = .black
+        navigationController?.navigationBar.barTintColor = .systemGroupedBackground
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.shadowImage = UIImage()
         
