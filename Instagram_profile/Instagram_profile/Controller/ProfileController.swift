@@ -88,7 +88,7 @@ extension ProfileController{
 extension ProfileController: UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        let height: CGFloat = 320
+        let height: CGFloat = 340
         return CGSize(width: view.frame.width, height: height)
     }
     

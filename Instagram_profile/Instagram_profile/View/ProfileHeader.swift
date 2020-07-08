@@ -56,10 +56,29 @@ class ProfileHeader: UICollectionReusableView{
         button.setTitleColor(.black, for: .normal)
         button.addTarget(self, action: #selector(handleEditProfileButtonTapped), for: .touchUpInside)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
-//        button.layer.borderColor = UIColor.systemGroupedBackground.cgColor
-        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.borderColor = UIColor.lightGray.cgColor
+        button.layer.borderWidth = 1
+        button.layer.cornerRadius = 4
         button.backgroundColor = .white
         return button
+    }()
+    
+    private let storiesPlusButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        button.imageView?.tintColor = .black
+        button.backgroundColor = .clear
+        button.layer.borderColor = UIColor.lightGray.cgColor
+        button.layer.borderWidth = 1
+        return button
+    }()
+    
+    private let storiesPlusLabel: UILabel = {
+        let label = UILabel()
+        label.text = "新規"
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 10)
+        return label
     }()
     
     
@@ -97,6 +116,15 @@ class ProfileHeader: UICollectionReusableView{
         
         addSubview(editProfileButton)
         editProfileButton.anchor(top: bioLabel.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 16, paddingLeft: 16, paddingRight: 16 )
+        
+        addSubview(storiesPlusButton)
+        storiesPlusButton.anchor(top: editProfileButton.bottomAnchor, left: leftAnchor, paddingTop: 16, paddingLeft: 16)
+        storiesPlusButton.setDimensions(width: 64, height: 64)
+        storiesPlusButton.layer.cornerRadius = 64 / 2
+        
+        addSubview(storiesPlusLabel)
+        storiesPlusLabel.centerX(inView: storiesPlusButton)
+        storiesPlusLabel.anchor(top: storiesPlusButton.bottomAnchor, paddingTop: 4)
     }
     
     required init?(coder: NSCoder) {

@@ -12,11 +12,6 @@ class MainTabController: UITabBarController{
     
     // MARK: - Properties
     
-//    private let profileImage: UIImage? = {
-//        let image = UIImage(named: "profile_image")
-//        return image
-//    }()
-    
     
     // MARK: - Lifecycle
     
@@ -54,6 +49,9 @@ class MainTabController: UITabBarController{
         let nav5 = templateNavigationController(image: UIImage(systemName: "person"), rootViewController: profile)
         
         viewControllers = [nav1, nav2, nav3, nav4, nav5]
+        
+        // profileControllerを初期表示
+        selectedIndex = 4
     }
     
     func templateNavigationController(image: UIImage?, rootViewController: UIViewController) -> UINavigationController{
