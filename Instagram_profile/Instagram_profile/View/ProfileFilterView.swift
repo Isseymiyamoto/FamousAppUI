@@ -23,12 +23,25 @@ class ProfileFilterView: UIView {
         return cv
     }()
     
+    private let underlineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black
+        return view
+    }()
+    
     // MARK: - Lifecycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        collectionView.register(<#T##cellClass: AnyClass?##AnyClass?#>, forCellWithReuseIdentifier: <#T##String#>)
+        collectionView.register(ProfileFilterCell.self, forCellWithReuseIdentifier: identifier)
+        
+        // 初期化時にisSelected = trueにするcellを決定する
+        let selectedIndexPath = IndexPath(row: 0, section: 0)
+        collectionView.selectItem(at: selectedIndexPath, animated: true, scrollPosition: .left)
+        
+        addSubview(collectionView)
+        collectionView.addConstraintsToFillView(self)
     }
     
     required init?(coder: NSCoder) {
@@ -47,19 +60,30 @@ class ProfileFilterView: UIView {
 
 extension ProfileFilterView: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
+        return ProfileFilterOptions.allCases.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! ProfileFilterCell
+        
+        let option = ProfileFilterOptions(rawValue: indexPath.row)
+        cell.option = option
+        
         return cell
     }
     
     
 }
 
-// MARK: - UICollectionViewDelegate
+// MARK: - UICollectionViewDelegateFlowLayout
 
-extension ProfileFilterView: UICollectionViewDelegate{
+extension ProfileFilterView: UICollectionViewDelegateFlowLayout{
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let count = CGFloat(ProfileFilterOptions.allCases.count)
+        return CGSize(width: frame.width / count, height: frame.height)
+    }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
 }

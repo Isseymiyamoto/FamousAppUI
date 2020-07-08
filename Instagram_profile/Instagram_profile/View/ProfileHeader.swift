@@ -81,6 +81,8 @@ class ProfileHeader: UICollectionReusableView{
         return label
     }()
     
+    private let filterBar = ProfileFilterView()
+    
     
     
     // MARK: - Lifecycle
@@ -125,7 +127,13 @@ class ProfileHeader: UICollectionReusableView{
         addSubview(storiesPlusLabel)
         storiesPlusLabel.centerX(inView: storiesPlusButton)
         storiesPlusLabel.anchor(top: storiesPlusButton.bottomAnchor, paddingTop: 4)
+        
+        addSubview(filterBar)
+        filterBar.anchor(left: leftAnchor, bottom: bottomAnchor,
+                         right: rightAnchor, height: 50)
     }
+    
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

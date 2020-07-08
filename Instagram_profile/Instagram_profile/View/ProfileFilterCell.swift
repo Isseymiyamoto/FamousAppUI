@@ -24,11 +24,11 @@ class ProfileFilterCell: UICollectionViewCell{
     
     // MARK: - Properties
     
-//    var options: ProfileFilterOptions! {
-//
-//    }
+    var option: ProfileFilterOptions! {
+        didSet{ imageView.image = option.systemImage }
+    }
     
-    let imageView: UIImageView = {
+    private var imageView: UIImageView = {
         let iv = UIImageView()
         return iv
     }()
@@ -38,6 +38,10 @@ class ProfileFilterCell: UICollectionViewCell{
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        addSubview(imageView)
+        imageView.setDimensions(width: 24, height: 24)
+        imageView.center(inView: self)
     }
     
     required init?(coder: NSCoder) {
