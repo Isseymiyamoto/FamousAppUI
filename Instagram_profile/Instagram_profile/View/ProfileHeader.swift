@@ -69,7 +69,7 @@ class ProfileHeader: UICollectionReusableView{
         button.imageView?.tintColor = .black
         button.backgroundColor = .clear
         button.layer.borderColor = UIColor.lightGray.cgColor
-        button.layer.borderWidth = 1
+        button.layer.borderWidth = 0.75
         return button
     }()
     

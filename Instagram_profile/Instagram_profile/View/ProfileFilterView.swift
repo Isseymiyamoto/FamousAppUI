@@ -10,9 +10,15 @@ import UIKit
 
 private let identifier = "ProfileFilterCell"
 
+protocol ProfileFilterViewDelegate: class {
+    func filterView(_ view: ProfileFilterView, didSelect index: Int)
+}
+
 class ProfileFilterView: UIView {
     
     // MARK: - Properties
+    
+    weak var delegate: ProfileFilterViewDelegate?
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -29,6 +35,12 @@ class ProfileFilterView: UIView {
         return view
     }()
     
+    private let abovelineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .lightGray
+        return view
+    }()
+    
     // MARK: - Lifecycle
     
     override init(frame: CGRect) {
@@ -42,6 +54,14 @@ class ProfileFilterView: UIView {
         
         addSubview(collectionView)
         collectionView.addConstraintsToFillView(self)
+    }
+    
+    override func layoutSubviews() {
+        addSubview(abovelineView)
+        abovelineView.anchor(left: leftAnchor, bottom: topAnchor, width: frame.width, height: 0.5)
+        
+        addSubview(underlineView)
+        underlineView.anchor(left: leftAnchor, bottom: bottomAnchor, width: frame.width / 2, height: 1)
     }
     
     required init?(coder: NSCoder) {
@@ -71,8 +91,22 @@ extension ProfileFilterView: UICollectionViewDataSource{
         
         return cell
     }
-    
-    
+}
+
+// MARK: - UICollectionViewDelegate
+
+extension ProfileFilterView: UICollectionViewDelegate{
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath)
+        // underlineViewをtouchUpInsideされたcellのx座標に0.3秒で移動させる
+        let xPosition = cell?.frame.origin.x ?? 0
+        
+        UIView.animate(withDuration: 0.3) {
+            self.underlineView.frame.origin.x = xPosition
+        }
+        
+        delegate?.filterView(self, didSelect: indexPath.row)
+    }
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
