@@ -9,16 +9,15 @@
 import UIKit
 
 private let headerIdentifier = "profileHeader"
-//private let identifier = "logCell"
+private let identifier = "postCell"
 
 class ProfileController: UICollectionViewController{
     
     // MARK: - Properties
     
-    
-    
-    
-    
+    private var imageArray: [UIImage?] =
+        [UIImage(named: "profile_image"), UIImage(named: "zack"), UIImage(named: "profile_image"), UIImage(named: "zack"),
+         UIImage(named: "profile_image"), UIImage(named: "zack"), UIImage(named: "profile_image"), UIImage(named: "zack")]
     
     
     // MARK: - Lifecycle
@@ -60,26 +59,39 @@ class ProfileController: UICollectionViewController{
     func configureCollectionView(){
         collectionView.backgroundColor = .white
         collectionView.register(ProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
+        collectionView.register(PostCell.self, forCellWithReuseIdentifier: identifier)
+        
+        guard let tabHeight = tabBarController?.tabBar.frame.height else { return }
+        collectionView.contentInset.bottom = tabHeight
     }
 }
 
 // MARK: - UICollectionViewDataSource
 
 extension ProfileController{
-//    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return 1
-//    }
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return imageArray.count
+    }
     
-//    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)
-//        return cell
-//    }
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! PostCell
+        cell.postImageView.image = imageArray[indexPath.row]
+        return cell
+    }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! ProfileHeader
         return header
     }
     
+}
+
+// MARK: - UICollectionViewDelegate
+
+extension ProfileController{
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("DEBUG: this item is \(indexPath.row)")
+    }
 }
 
 
@@ -92,10 +104,18 @@ extension ProfileController: UICollectionViewDelegateFlowLayout{
         return CGSize(width: view.frame.width, height: height)
     }
     
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        let size = view.frame.width / 3
-//        return CGSize(width: size, height: size)
-//    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let size = view.frame.width / 3
+        return CGSize(width: size, height: size)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
 }
 
 
