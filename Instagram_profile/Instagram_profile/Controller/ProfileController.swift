@@ -17,6 +17,7 @@ class ProfileController: UICollectionViewController{
     
     private var imageArray: [UIImage?] =
         [UIImage(named: "profile_image"), UIImage(named: "zack"), UIImage(named: "profile_image"), UIImage(named: "zack"),
+         UIImage(named: "profile_image"), UIImage(named: "zack"), UIImage(named: "profile_image"), UIImage(named: "zack"),
          UIImage(named: "profile_image"), UIImage(named: "zack"), UIImage(named: "profile_image"), UIImage(named: "zack")]
     
     
@@ -38,7 +39,7 @@ class ProfileController: UICollectionViewController{
     // MARK: - Helpers
     
     func configureUI(){
-        view.backgroundColor = .white
+        view.backgroundColor = .systemGroupedBackground
         
         configureNavigationBar()
         configureCollectionView()
