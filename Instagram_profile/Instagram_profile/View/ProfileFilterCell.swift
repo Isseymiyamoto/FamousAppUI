@@ -33,6 +33,12 @@ class ProfileFilterCell: UICollectionViewCell{
         return iv
     }()
     
+    override var isSelected: Bool {
+        didSet{
+            imageView.tintColor = isSelected ? .black : .lightGray
+        }
+    }
+    
     
     // MARK: - Lifecycle
     
@@ -40,6 +46,7 @@ class ProfileFilterCell: UICollectionViewCell{
         super.init(frame: frame)
         
         addSubview(imageView)
+        imageView.tintColor = .lightGray
         imageView.setDimensions(width: 24, height: 24)
         imageView.center(inView: self)
     }
