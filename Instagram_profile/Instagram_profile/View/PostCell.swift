@@ -15,7 +15,7 @@ class PostCell: UICollectionViewCell{
     
     let postImageView: UIImageView = {
         let iv = UIImageView()
-        iv.contentMode = .scaleAspectFit
+        iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         return iv
     }()

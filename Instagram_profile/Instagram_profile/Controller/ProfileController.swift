@@ -16,9 +16,9 @@ class ProfileController: UICollectionViewController{
     // MARK: - Properties
     
     private var imageArray: [UIImage?] =
-        [UIImage(named: "profile_image"), UIImage(named: "zack"), UIImage(named: "profile_image"), UIImage(named: "zack"),
-         UIImage(named: "profile_image"), UIImage(named: "zack"), UIImage(named: "profile_image"), UIImage(named: "zack"),
-         UIImage(named: "profile_image"), UIImage(named: "zack"), UIImage(named: "profile_image"), UIImage(named: "zack")]
+        [UIImage(named: "jeff"), UIImage(named: "zack"), UIImage(named: "elon"), UIImage(named: "steve"),
+         UIImage(named: "jeff"), UIImage(named: "zack"), UIImage(named: "elon"), UIImage(named: "steve"),
+         UIImage(named: "jeff"), UIImage(named: "zack"), UIImage(named: "elon"), UIImage(named: "steve")]
     
     
     // MARK: - Lifecycle
@@ -36,6 +36,12 @@ class ProfileController: UICollectionViewController{
         
     }
     
+    @objc func handleRefresh(){
+        // データがないので何もしません
+        collectionView.refreshControl?.beginRefreshing()
+        collectionView.refreshControl?.endRefreshing()
+    }
+    
     // MARK: - Helpers
     
     func configureUI(){
@@ -43,6 +49,10 @@ class ProfileController: UICollectionViewController{
         
         configureNavigationBar()
         configureCollectionView()
+        
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        collectionView.refreshControl = refreshControl
     }
     
     
@@ -58,7 +68,7 @@ class ProfileController: UICollectionViewController{
     }
     
     func configureCollectionView(){
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .systemGroupedBackground
         collectionView.register(ProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
         collectionView.register(PostCell.self, forCellWithReuseIdentifier: identifier)
         
