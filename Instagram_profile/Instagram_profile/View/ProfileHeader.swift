@@ -66,7 +66,7 @@ class ProfileHeader: UICollectionReusableView{
     private let storiesPlusButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "plus"), for: .normal)
-        button.imageView?.tintColor = .black
+        button.tintColor = .black
         button.backgroundColor = .clear
         button.layer.borderColor = UIColor.lightGray.cgColor
         button.layer.borderWidth = 0.75
