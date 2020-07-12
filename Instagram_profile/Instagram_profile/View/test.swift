@@ -1,8 +1,8 @@
 //
-//  ProfileFilterView.swift
+//  test.swift
 //  Instagram_profile
 //
-//  Created by 宮本一成 on 2020/07/08.
+//  Created by 宮本一成 on 2020/07/12.
 //  Copyright © 2020 ISSEY MIYAMOTO. All rights reserved.
 //
 
@@ -10,11 +10,11 @@ import UIKit
 
 private let identifier = "ProfileFilterCell"
 
-protocol ProfileFilterViewDelegate: class {
-    func filterView(_ view: ProfileFilterView, didSelect index: Int)
-}
+//protocol ProfileFilterViewDelegate: class {
+//    func filterView(_ view: ProfileFilterView, didSelect index: Int)
+//}
 
-class ProfileFilterView: UICollectionReusableView {
+class Test: UICollectionReusableView {
     
     // MARK: - Properties
     
@@ -78,7 +78,7 @@ class ProfileFilterView: UICollectionReusableView {
 
 // MARK: - UICollectionViewDataSource
 
-extension ProfileFilterView: UICollectionViewDataSource{
+extension Test: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return ProfileFilterOptions.allCases.count
     }
@@ -95,7 +95,7 @@ extension ProfileFilterView: UICollectionViewDataSource{
 
 // MARK: - UICollectionViewDelegate
 
-extension ProfileFilterView: UICollectionViewDelegate{
+extension Test: UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath)
         // underlineViewをtouchUpInsideされたcellのx座標に0.3秒で移動させる
@@ -105,13 +105,12 @@ extension ProfileFilterView: UICollectionViewDelegate{
             self.underlineView.frame.origin.x = xPosition
         }
         
-        delegate?.filterView(self, didSelect: indexPath.row)
     }
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
 
-extension ProfileFilterView: UICollectionViewDelegateFlowLayout{
+extension Test: UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let count = CGFloat(ProfileFilterOptions.allCases.count)
         return CGSize(width: frame.width / count, height: frame.height)
@@ -121,3 +120,4 @@ extension ProfileFilterView: UICollectionViewDelegateFlowLayout{
         return 0
     }
 }
+

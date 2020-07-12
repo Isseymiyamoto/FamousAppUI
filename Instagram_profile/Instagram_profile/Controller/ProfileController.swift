@@ -8,8 +8,11 @@
 
 import UIKit
 
-private let headerIdentifier = "profileHeader"
+private let headerIdentifier = "filterHeader"
+private let profileIdentifier = "profileCell"
 private let identifier = "postCell"
+
+
 
 class ProfileController: UICollectionViewController{
     
@@ -70,32 +73,53 @@ class ProfileController: UICollectionViewController{
     
     func configureCollectionView(){
         collectionView.backgroundColor = .systemGroupedBackground
-        collectionView.register(ProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
+        
+        collectionView.register(ProfileHeader.self, forCellWithReuseIdentifier: profileIdentifier)
         collectionView.register(PostCell.self, forCellWithReuseIdentifier: identifier)
+        
+        collectionView.register(ProfileFilterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
         
         guard let tabHeight = tabBarController?.tabBar.frame.height else { return }
         collectionView.contentInset.bottom = tabHeight
+        
+        guard let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+        flowLayout.sectionHeadersPinToVisibleBounds = true
     }
 }
 
 // MARK: - UICollectionViewDataSource
 
 extension ProfileController{
+    
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 2
+    }
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return imageArray.count
+        switch section {
+        case 0:
+            return 1
+        default:
+            return imageArray.count
+        }
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! PostCell
-        cell.postImageView.image = imageArray[indexPath.row]
-        return cell
+        switch indexPath.section {
+        case 0:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: profileIdentifier, for: indexPath) as! ProfileHeader
+            return cell
+        default:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! PostCell
+            cell.postImageView.image = imageArray[indexPath.row]
+            return cell
+        }
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! ProfileHeader
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! ProfileFilterView
         return header
     }
-    
 }
 
 // MARK: - UICollectionViewDelegate
@@ -112,13 +136,24 @@ extension ProfileController{
 extension ProfileController: UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        let height: CGFloat = 380
-        return CGSize(width: view.frame.width, height: height)
+        switch section {
+        case 0:
+            return CGSize(width: 0, height: 0)
+        default:
+            let height: CGFloat = 50
+            return CGSize(width: view.frame.width, height: height)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let size = view.frame.width / 3
-        return CGSize(width: size, height: size)
+        switch indexPath.section {
+        case 0:
+            let height: CGFloat = 340
+            return CGSize(width: view.frame.width, height: height)
+        default:
+            let size = view.frame.width / 3
+            return CGSize(width: size, height: size)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -129,5 +164,7 @@ extension ProfileController: UICollectionViewDelegateFlowLayout{
         return 0
     }
 }
+
+
 
 

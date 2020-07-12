@@ -12,7 +12,7 @@ protocol ProfileHeaderDelegate: class {
     func handleEditProfile(_ header: ProfileHeader)
 }
 
-class ProfileHeader: UICollectionReusableView{
+class ProfileHeader: UICollectionViewCell{
     
     // MARK: - Properties
     
@@ -81,7 +81,7 @@ class ProfileHeader: UICollectionReusableView{
         return label
     }()
     
-    private let filterBar = ProfileFilterView()
+//    private let filterBar = ProfileFilterView()
     
     
     
@@ -128,9 +128,9 @@ class ProfileHeader: UICollectionReusableView{
         storiesPlusLabel.centerX(inView: storiesPlusButton)
         storiesPlusLabel.anchor(top: storiesPlusButton.bottomAnchor, paddingTop: 4)
         
-        addSubview(filterBar)
-        filterBar.anchor(left: leftAnchor, bottom: bottomAnchor,
-                         right: rightAnchor, height: 50)
+//        addSubview(filterBar)
+//        filterBar.anchor(left: leftAnchor, bottom: bottomAnchor,
+//                         right: rightAnchor, height: 50)
     }
     
     
