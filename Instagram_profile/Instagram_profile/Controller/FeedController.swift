@@ -12,8 +12,6 @@ class FeedController: UIViewController {
     
     // MARK: - Properties
     
-    // MARK: - Properties
-    
     private let dammyButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Dammy View", for: .normal)
