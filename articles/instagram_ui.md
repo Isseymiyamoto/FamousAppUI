@@ -1,4 +1,4 @@
-#はじめに
+# はじめに
 
 コロナ！w、コロナ！wと言っていたら、光陰矢の如く時間が過ぎ去っていた昨今です
 
@@ -10,31 +10,31 @@
 ただただSwift初心者がUIを真似して作っただけなので、何かと至らない点があるかと思いますが、
 コードの書き方、間違い等、お気づきのところあれば是非アドバイスくださると助かります！！
 
-##完成形
+## 完成形
 
 ![last_qiita.gif](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/532395/abfe0c7a-483f-0f90-950b-5a6058c7c2f6.gif)
 
 [めっちゃ起業家に憧れるインスタグラマー]
 
-##対象読者
+## 対象読者
 
 ・ iOSアプリ開発初心者の方
 ・ UICollectionViewの使い方を知りたい方
 ・ StoryBoardを使用せずに開発してみたい方
 ・ InstagramのUIが好きな方
 
-##開発環境
+## 開発環境
 
 ・ Version 11.3 (11C29)
 ・ Swift 5
 
-##完成版 Github
+## 完成版 Github
 
 以下にソースコードを載せておきます
 
 https://github.com/Isseymiyamoto/FamousAppUI/tree/master/Instagram_profile/Instagram_profile
 
-##ファイル構成
+## ファイル構成
 
 今回、データ通信は行わないため`View`、`Controller`フォルダ内に新しいファイルを追加していきます
 `Utils` > `Extensions.swift`ではLayout関連の処理を簡素化するための関数を入れていますが、
@@ -44,7 +44,7 @@ https://github.com/Isseymiyamoto/FamousAppUI/tree/master/Instagram_profile/Insta
 
 さて、実装に移りましょう
 
-#実装の手順
+# 実装の手順
 
 1、2に関しては、TabBarが必要なければスキップしてください
 
