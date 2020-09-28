@@ -1,4 +1,4 @@
-#はじめに
+# はじめに
 
 今回はUICollectionViewでInstagramのプロフィールっぽいUIをコードだけで実装してみる。
 という内容です
@@ -10,31 +10,31 @@
 
 書き始めたの3ヶ月前、、ピエンパオンが止まりません
 
-##完成形
+## 完成形
 
 ![last_qiita.gif](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/532395/abfe0c7a-483f-0f90-950b-5a6058c7c2f6.gif)
 
 [めっちゃ起業家に憧れるインスタグラマー]
 
-##対象読者
+## 対象読者
 
 ・ iOSアプリ開発初心者の方
 ・ UICollectionViewの使い方を知りたい方
 ・ StoryBoardを使用せずに開発してみたい方
 ・ InstagramのUIが好きな方
 
-##開発環境
+## 開発環境
 
 ・ Version 11.3 (11C29)
 ・ Swift 5
 
-##完成版 Github
+## 完成版 Github
 
 以下にソースコードを載せておきます
 
 https://github.com/Isseymiyamoto/FamousAppUI/tree/master/Instagram_profile/Instagram_profile
 
-##ファイル構成
+## ファイル構成
 
 今回、データの取得等の通信は行わないため`View`、`Controller`フォルダ内に新しいファイルを追加していきます
 `Utils` > `Extensions.swift`ではLayout関連の処理を簡素化するための関数を入れていますが、
@@ -44,7 +44,7 @@ https://github.com/Isseymiyamoto/FamousAppUI/tree/master/Instagram_profile/Insta
 
 さて、実装に移りましょう
 
-#実装の手順
+# 実装の手順
 
 1、2に関しては、TabBarが必要なければスキップしてください
 
@@ -467,30 +467,399 @@ ProfileController上では、indexPath.section = 1 のheaderとして表示し�
 さて、FilterViewですが、UICollectionReusableViewの中にUICollectionViewを設置する形で作成します
 はい、つまりUICollectionViewCellのFilterViewCellも別ファイルで作ります。頑張りましょう
 
+```swift:ProfileFilterView.swift
+import UIKit
 
+private let profileHeaderCellIdentifier = "profileHeaderCell"
 
+// ハリボテ
+protocol ProfileFilterViewDelegate: class {
+    func filterView(_ view: ProfileFilterView, didSelect index: Int)
+}
 
+class ProfileFilterView: UICollectionReusableView {
+    
+    // MARK: - Properties
+    
+    // ハリボテ
+    weak var delegate: ProfileFilterViewDelegate?
+    
+    // viewに載せていくcollectionView
+    lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.backgroundColor = .systemGroupedBackground
+        cv.delegate = self
+        cv.dataSource = self
+        return cv
+    }()
+    
+    // こいつをアニメーションさせていい感じに選択した感を演出
+    private let underlineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black
+        return view
+    }()
+    
+    // profileHeaderCellとの境界線
+    private let abovelineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .lightGray
+        return view
+    }()
+    
+    // MARK: - Lifecycle
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        collectionView.register(ProfileFilterCell.self, forCellWithReuseIdentifier: identifier)
+        
+        // 初期化時にisSelected = trueにするcellを決定する
+        let selectedIndexPath = IndexPath(row: 0, section: 0)
+        collectionView.selectItem(at: selectedIndexPath, animated: true, scrollPosition: .left)
+        
+        addSubview(collectionView)
+        // 親viewいっぱいにcollectionViewを広げる
+        collectionView.addConstraintsToFillView(self)
+    }
+    
+    override func layoutSubviews() {
+        addSubview(abovelineView)
+        abovelineView.anchor(left: leftAnchor, bottom: topAnchor, width: frame.width, height: 0.5)
+        
+        addSubview(underlineView)
+        underlineView.anchor(left: leftAnchor, bottom: bottomAnchor, width: frame.width / 2, height: 1)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
 
+// MARK: - UICollectionViewDataSource
 
+extension ProfileFilterView: UICollectionViewDataSource{
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        // tag or post の 2択なので return 2 でも ok
+        return ProfileFilterOptions.allCases.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! ProfileFilterCell
+        
+        // cell側のoptionを更新
+        let option = ProfileFilterOptions(rawValue: indexPath.row)
+        cell.option = option
+        
+        return cell
+    }
+}
 
+// MARK: - UICollectionViewDelegate
 
+extension ProfileFilterView: UICollectionViewDelegate{
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath)
+        // underlineViewをtouchUpInsideされたcellのx座標に0.3秒で移動させる
+        let xPosition = cell?.frame.origin.x ?? 0
+        
+        UIView.animate(withDuration: 0.3) {
+            self.underlineView.frame.origin.x = xPosition
+        }
+        
+        // ハリボテ → 本来ProfileControllerにて表示画像変更できるように処理書く
+        delegate?.filterView(self, didSelect: indexPath.row)
+    }
+}
 
+// MARK: - UICollectionViewDelegateFlowLayout
 
+extension ProfileFilterView: UICollectionViewDelegateFlowLayout{
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let count = CGFloat(ProfileFilterOptions.allCases.count)
+        return CGSize(width: frame.width / count, height: frame.height)
+    }
+    
+    // item同士の隙間がないよう設置
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+}
+```
 
+```swift:ProfileFilterViewCell.swift
+import UIKit
 
+// 投稿 or tag付け投稿一覧どっちやねんを見極めます
+enum ProfileFilterOptions: Int, CaseIterable{
+    case post
+    case tag
+    
+    var systemImage: UIImage? {
+        switch self {
+        case .post: return UIImage(systemName: "rectangle.split.3x3")
+        case .tag: return UIImage(systemName: "person.crop.rectangle")
+        }
+    }
+}
 
+class ProfileFilterViewCell: UICollectionViewCell{
+    
+    // MARK: - Properties
+    
+    // 投稿 or tag付け投稿一覧どっちやねんが更新されたら、imageViewのimageを変更するように設定
+    var option: ProfileFilterOptions! {
+        didSet{ imageView.image = option.systemImage }
+    }
+    
+    private var imageView: UIImageView = {
+        let iv = UIImageView()
+        return iv
+    }()
+    
+    // 選択された場合と否かでtintColor変更
+    override var isSelected: Bool {
+        didSet{
+            imageView.tintColor = isSelected ? .black : .lightGray
+        }
+    }
+    
+    // MARK: - Lifecycle
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        addSubview(imageView)
+        imageView.tintColor = .lightGray
+        imageView.setDimensions(width: 24, height: 24)
+        imageView.center(inView: self)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+```
 
+さあ、そろそろ記事書くのに息切れしてきましたが、工程6に進みましょう
 
+## 6.Viewフォルダにて、投稿写真表示用のPostCellの作成
 
+さあ、最後にただただ写真を表示するだけのcellをサクッと作りましょう！！
 
+```swift:PostCell.swift
+import UIKit
 
+class PostCell: UICollectionViewCell{
+    
+    // MARK: - Properties
+    
+    let postImageView: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFill
+        iv.clipsToBounds = true
+        return iv
+    }()
+    
+    
+    // MARK: - Lifecycle
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        self.layer.borderColor = UIColor.white.cgColor
+        self.layer.borderWidth = 0.5
+        
+        addSubview(postImageView)
+        postImageView.addConstraintsToFillView(self)
+        postImageView.center(inView: self)
+        
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+```
 
+一気に人生イージーモードに突入したので、本当に最後にProfileControllerにて全部合致しましょう！！
 
+## 7.合体 and 完成！！
 
+```swift:ProfileController.swift
+import UIKit
 
+private let filterViewIdentifier = "filterView"
+private let profileHeaderCellIdentifier = "profileHeaderCell"
+private let postCellIdentifier = "postCell"
 
+class ProfileController: UICollectionViewController{
+    
+    // MARK: - Properties
+    
+    // post cell箇所に適応したいハリボテUIIMage配列を作成
+    private var imageArray: [UIImage?] =
+        [UIImage(named: "jeff"), UIImage(named: "zack"), UIImage(named: "elon"), UIImage(named: "steve"),
+         UIImage(named: "jeff"), UIImage(named: "zack"), UIImage(named: "elon"), UIImage(named: "steve"),
+         UIImage(named: "jeff"), UIImage(named: "zack"), UIImage(named: "elon"), UIImage(named: "steve"),
+         UIImage(named: "jeff"), UIImage(named: "zack"), UIImage(named: "elon"), UIImage(named: "steve")]
+    
+    
+    // MARK: - Lifecycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        configureUI()
+    }
+    
+    
+    // MARK: - Selectors
+    
+    @objc func handleRightButtonTapped(){
+        print("DEBUG: you pressed the button..")
+    }
+    
+    @objc func handleRefresh(){
+        // データがないので何もしません
+        collectionView.refreshControl?.beginRefreshing()
+        collectionView.refreshControl?.endRefreshing()
+    }
+    
+    // MARK: - Helpers
+    
+    func configureUI(){
+        view.backgroundColor = .systemGroupedBackground
+        
+        configureNavigationBar()
+        configureCollectionView()
+        
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        collectionView.refreshControl = refreshControl
+    }
+    
+    
+    func configureNavigationBar(){
+        navigationController?.navigationBar.tintColor = .black
+        navigationController?.navigationBar.barTintColor = .systemGroupedBackground
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.shadowImage = UIImage()
+        
+        navigationItem.title = "user_id"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "line.horizontal.3"), style: .plain, target: self, action: #selector(handleRightButtonTapped))
+        
+    }
+    
+    func configureCollectionView(){
+        collectionView.backgroundColor = .systemGroupedBackground
+        
+        collectionView.register(ProfileHeader.self, forCellWithReuseIdentifier: profileHeaderCellIdentifier)
+        collectionView.register(PostCell.self, forCellWithReuseIdentifier: postCellIdentifier)
+        
+        collectionView.register(ProfileFilterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: filterViewIdentifier)
+        
+        guard let tabHeight = tabBarController?.tabBar.frame.height else { return }
+        collectionView.contentInset.bottom = tabHeight
+        
+        // スクロールした際にFilterViewをnavigationBarと同化させる
+        guard let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+        flowLayout.sectionHeadersPinToVisibleBounds = true
+    }
+}
 
+// MARK: - UICollectionViewDataSource
 
+extension ProfileController{
+    
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 2
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        switch section {
+        case 0:
+            return 1
+        default:
+            // 表示したいimage数だけcellを配置
+            return imageArray.count
+        }
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        switch indexPath.section {
+        case 0:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: profileHeaderCellIdentifier, for: indexPath) as! ProfileHeader
+            return cell
+        default:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: postCellIdentifier, for: indexPath) as! PostCell
+            // cellのimageに代入
+            cell.postImageView.image = imageArray[indexPath.row]
+            return cell
+        }
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        // headerとしてProfileFilterView登録
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: filterViewIdentifier, for: indexPath) as! ProfileFilterView
+        return header
+    }
+}
 
+// MARK: - UICollectionViewDelegate
 
+extension ProfileController{
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if(indexPath.section == 1){
+          print("DEBUG: this item is \(indexPath.row)")
+        }
+    }
+}
+// MARK: - UICollectionViewDelegateFlowLayout
 
+extension ProfileController: UICollectionViewDelegateFlowLayout{
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        switch section {
+        case 0:
+            return CGSize(width: 0, height: 0)
+        default:
+            let height: CGFloat = 50
+            return CGSize(width: view.frame.width, height: height)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        switch indexPath.section {
+        case 0:
+            let height: CGFloat = 340
+            return CGSize(width: view.frame.width, height: height)
+        default:
+            // 3列表示、正方形サイズに
+            let size = view.frame.width / 3
+            return CGSize(width: size, height: size)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+}
+```
+
+# 最後に
+
+どうでしょうか？
+いい感じに、InstagramのプロフィールっぽいハリボテUI完成しましたでしょうか？
+
+最後の方、段々疲れて来て口数減ってしまいました。
+説明が足りない箇所等コメントにて教えてくださると追記したいと思います。
+
+というか、コピペしても動かんねんけどという苦情あったらすみません。すぐ直します。
+
+それでは！
