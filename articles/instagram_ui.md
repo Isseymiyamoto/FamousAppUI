@@ -178,4 +178,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 ```
 
 こちら設定後Simulatorを立ち上げると以下のように表示されれば完璧です
+
 ![スクリーンショット 2020-09-28 20.04.35.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/532395/1d2f3646-bd38-de06-b35f-303105fc80bd.png)
