@@ -8,18 +8,13 @@
 
 import UIKit
 
-class FeedController: UIViewController {
+private let identifier = "FeedCell"
+
+class FeedController: UITableViewController{
     
     // MARK: - Properties
     
-    private let dammyButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Dammy View", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        button.backgroundColor = .systemPurple
-        return button
-    }()
+    
     
     
     // MARK: - Lifecycle
@@ -27,23 +22,51 @@ class FeedController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        configureUI(withTitle: "タイムライン")
+        configureNavigationBar()
+    }
+    
+    // MARK: - Selectors
+    
+    @objc func handleCameraButtonTapped(){
+        print("DEBUG: camera button was tapped..")
+    }
+    
+    @objc func handleMessageButtonTapped(){
+        print("DEBUG: message button was tapped..")
     }
     
     
     // MARK: - Helpers
     
-    func configureUI(withTitle title: String){
-        view.backgroundColor = .white
+    func configreuTableView(){
+        tableView.backgroundColor = .white
+        tableView.register(FeedCell.self, forCellReuseIdentifier: identifier)
+    }
+    
+    func configureNavigationBar(){
+        navigationItem.title = "Logo挿入"
         
-        navigationItem.title = title
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "camera"), style: .plain, target: self, action: #selector(handleCameraButtonTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "paperplane"), style: .plain, target: self, action: #selector(handleMessageButtonTapped))
         
-        view.addSubview(dammyButton)
-        dammyButton.center(inView: view)
-        dammyButton.anchor(left: view.leftAnchor, right: view.rightAnchor, paddingLeft: 16, paddingRight: 16, height: 56)
-        dammyButton.layer.cornerRadius = 4
+        navigationItem.leftBarButtonItem?.tintColor = .black
+        navigationItem.rightBarButtonItem?.tintColor = .black
     }
 
    
 
 }
+
+
+// MARK: - UITableViewControllerDelegate / DataSource
+
+extension FeedController{
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! FeedCell
+        return cell
+    }
+}
+
+
+
+
