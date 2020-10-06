@@ -23,6 +23,7 @@ class FeedController: UITableViewController{
         super.viewDidLoad()
 
         configureNavigationBar()
+        configreuTableView()
     }
     
     // MARK: - Selectors
@@ -37,6 +38,7 @@ class FeedController: UITableViewController{
     
     
     // MARK: - Helpers
+
     
     func configreuTableView(){
         tableView.backgroundColor = .white
@@ -61,9 +63,23 @@ class FeedController: UITableViewController{
 // MARK: - UITableViewControllerDelegate / DataSource
 
 extension FeedController{
+    
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! FeedCell
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 320
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
     }
 }
 

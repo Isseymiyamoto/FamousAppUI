@@ -51,7 +51,7 @@ class MainTabController: UITabBarController{
         viewControllers = [nav1, nav2, nav3, nav4, nav5]
         
         // profileControllerを初期表示
-        selectedIndex = 4
+        selectedIndex = 0
     }
     
     func templateNavigationController(image: UIImage?, rootViewController: UIViewController) -> UINavigationController{

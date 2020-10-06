@@ -14,7 +14,7 @@ class FeedCell: UITableViewCell{
     
     private let userInfoView: UIView = {
         let view = UIView()
-        view.backgroundColor = .red
+        view.backgroundColor = .systemGroupedBackground
         return view
     }()
     
@@ -23,20 +23,22 @@ class FeedCell: UITableViewCell{
         iv.image = UIImage(named: "steve")
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
+        iv.setDimensions(width: 48, height: 48)
+        iv.layer.cornerRadius = 48 / 2
         return iv
     }()
     
     private let userNameLabel: UILabel = {
         let label = UILabel()
         label.text = "user_name"
-        label.font = UIFont.systemFont(ofSize: 12)
+        label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
     
     private let placemarkLabel: UILabel = {
         let label = UILabel()
         label.text = "place_mark"
-        label.font = UIFont.systemFont(ofSize: 10)
+        label.font = UIFont.systemFont(ofSize: 12)
         return label
     }()
     
@@ -60,7 +62,8 @@ class FeedCell: UITableViewCell{
         topBarStack.alignment = .center
         
         userInfoView.addSubview(topBarStack)
-        userInfoView.frame = topBarStack.frame
+        topBarStack.anchor(left: leftAnchor, paddingLeft: 16)
+        topBarStack.centerY(inView: userInfoView)
         
     }
     
